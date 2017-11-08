@@ -18,47 +18,25 @@ class Mapbox extends React.Component {
       zoom: 14
     });
     this.map.on('load', () => {
-      this.map.addLayer({
-        id: 'locations',
-        type: 'symbol',
-        // Add a GeoJSON source containing place coordinates and information.
-        source: {
-          type: 'geojson',
-          data: stores
-        },
-        layout: {
-          'icon-image': 'restaurant-15',
-          'icon-allow-overlap': true,
-        }
+      this.map.addSource('places', {
+        type: 'geojson',
+        data: stores
       });
-    });
-        // Add an event listener for when a user clicks on the map
-    this.map.on('click', function(e) {
-      // Query all the rendered points in the view
-      var features = this.map.queryRenderedFeatures(e.point, { layers: ['locations'] });
-      if (features.length) {
-        var clickedPoint = features[0];
-        // 1. Fly to the point
-        this.flyToStore(clickedPoint);
-        // 2. Close all other popups and display popup for clicked store
-        this.createPopUp(clickedPoint);
-        // 3. Highlight listing in sidebar (and remove highlight for all other listings)
-        var activeItem = document.getElementsByClassName('active');
-        if (activeItem[0]) {
-          activeItem[0].classList.remove('active');
-        }
-        // Find the index of the store.features that corresponds to the clickedPoint that fired the event listener
-        var selectedFeature = clickedPoint.properties.address;
+      // console.log(this.map);
+      let map = this.map;
 
-        for (var i = 0; i < stores.features.length; i++) {
-          if (stores.features[i].properties.address === selectedFeature) {
-            selectedFeatureIndex = i;
-          }
-        }
-        // Select the correct list item using the found index and add the active class
-        var listing = document.getElementById('listing-' + selectedFeatureIndex);
-        listing.classList.add('active');
-      }
+      stores.features.forEach(function(marker) {
+      // Create a div element for the marker
+      var el = document.createElement('div');
+      // Add a class called 'marker' to each div
+      el.className = 'marker';
+      // By default the image for your custom marker will be anchored
+      // by its center. Adjust the position accordingly
+      // Create the custom markers, set their position, and add to map
+      new mapboxgl.Marker(el, { offset: [0, -23] })
+        .setLngLat(marker.geometry.coordinates)
+        .addTo(map);
+      });
     });
   }
 
@@ -87,8 +65,8 @@ class Mapbox extends React.Component {
 
   render() {
     const style = {
-      height: '800px',
-      width: '800px'
+      height: '840px',
+      width: '1200px'
     };
     return (
       <div style={{display: 'flex'}}>
