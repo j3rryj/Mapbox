@@ -8,6 +8,7 @@ class Mapbox extends React.Component {
     super(props);
     this.flyToStore = this.flyToStore.bind(this);
     this.createPopUp = this.createPopUp.bind(this);
+    this.generateListings = this.generateListings.bind(this);
   }
   componentDidMount() {
     this.map = new mapboxgl.Map({
@@ -23,11 +24,11 @@ class Mapbox extends React.Component {
         data: stores
       });
       // console.log(this.map);
-      let map = this.map;
+      const map = this.map;
 
       stores.features.forEach(function(marker) {
       // Create a div element for the marker
-      var el = document.createElement('div');
+      const el = document.createElement('div');
       // Add a class called 'marker' to each div
       el.className = 'marker';
       // By default the image for your custom marker will be anchored
@@ -51,12 +52,40 @@ class Mapbox extends React.Component {
     });
   }
 
+  generateListings() {
+    let i = -1;
+    let listing = stores.features.map((feature) => {
+      i += 1;
+      return (
+        <div className="item" key={i} id={`listing-${i}`}>
+          <a
+            href='#'
+            className='title' 
+            onClick={() => {
+              props.flyToStore(feature);
+              props.createPopUp(feature);
+              var activeItem = document.getElementsByClassName('active');
+              if (activeItem[0]) {
+                activeItem[0].classList.remove('active');
+              }
+            }}>
+            {feature.properties.address}
+          </a>
+          <div className='details'>
+            {feature.properties.city} &middot; {feature.properties.phoneFormatted}
+          </div>
+        </div>
+      )
+    });
+    return listing;
+  }
+
   createPopUp(currentFeature) {
-    var popUps = document.getElementsByClassName('mapboxgl-popup');
+    const popUps = document.getElementsByClassName('mapboxgl-popup');
     // Check if there is already a popup on the map and if so, remove it
     if (popUps[0]) popUps[0].remove();
 
-    var popup = new mapboxgl.Popup({ closeOnClick: false })
+    let popup = new mapboxgl.Popup({ closeOnClick: false })
       .setLngLat(currentFeature.geometry.coordinates)
       .setHTML('<h3>Sweetgreen</h3>' +
         '<h4>' + currentFeature.properties.address + '</h4>')
@@ -64,14 +93,10 @@ class Mapbox extends React.Component {
   }
 
   render() {
-    const style = {
-      height: '840px',
-      width: '1200px'
-    };
     return (
-      <div style={{display: 'flex'}}>
-        <Sidebar flyToStore={this.flyToStore} createPopUp={this.createPopUp}/>
-        <div className="map pad2" style={style} ref={el => this.mapContainer = el}>Map</div>
+      <div className="container">
+        <Sidebar flyToStore={this.flyToStore} createPopUp={this.createPopUp} generateListings={this.generateListings}/>
+        <div className="map pad2" ref={el => this.mapContainer = el}>Map</div>
       </div>
     );
   }
