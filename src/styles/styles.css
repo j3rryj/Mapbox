@@ -31,6 +31,10 @@ a:hover {
   color: #101010;
 }
 
+.container {
+  display: flex;
+}
+
 .sidebar {
   position: absolute;
   width: 33.3333%;
@@ -51,6 +55,8 @@ a:hover {
   width: 66.6666%;
   top: 0;
   bottom: 0;
+  height: 840px;
+  width: 1200px;
 }
 
 .heading {
