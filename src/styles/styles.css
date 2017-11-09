@@ -184,3 +184,56 @@ a:hover {
 .mapboxgl-popup {
   padding-bottom: 50px;
 }
+
+@media only screen 
+and (min-device-width : 414px) 
+and (max-device-width : 736px) 
+and (orientation : portrait) {
+  .map {
+    left: 0%;
+    bottom: 33.3333%;
+    height: 500px;
+    width: 410px;
+  }
+  .pad2 {
+    padding: 6px;
+  }
+  .sidebar {
+    height: 29%;
+    width: 100%;
+    top: 69%;
+  }
+  .heading, h1 {
+    height: 40px;
+  }
+  h1 {
+    padding: 10px 2px;
+  }
+}
+
+@media only screen 
+and (min-device-width : 414px) 
+and (max-device-width : 736px) 
+and (orientation : landscape) {
+  .map {
+    left: 0%;
+    bottom: 33.3333%;
+    height: 410px;
+    width: 440px;
+  }
+  .pad2 {
+    padding: 6px;
+  }
+  .sidebar {
+    height: 100%;
+    width: 40%;
+    top: 0%;
+    left: 60%;
+  }
+  .heading, h1 {
+    height: 40px;
+  }
+  h1 {
+    padding: 10px 2px;
+  }
+}
