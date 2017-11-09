@@ -96,7 +96,7 @@ class Mapbox extends React.Component {
     return (
       <div className="container">
         <Sidebar flyToStore={this.flyToStore} createPopUp={this.createPopUp} generateListings={this.generateListings}/>
-        <div className="map pad2" ref={el => this.mapContainer = el}>Map</div>
+        <div className="map pad2" ref={el => this.mapContainer = el} />
       </div>
     );
   }
