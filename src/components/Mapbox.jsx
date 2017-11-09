@@ -62,8 +62,8 @@ class Mapbox extends React.Component {
             href='#'
             className='title' 
             onClick={() => {
-              props.flyToStore(feature);
-              props.createPopUp(feature);
+              this.flyToStore(feature);
+              this.createPopUp(feature);
               var activeItem = document.getElementsByClassName('active');
               if (activeItem[0]) {
                 activeItem[0].classList.remove('active');
